@@ -1,7 +1,7 @@
 import { Brain, User} from "lucide-react";
 import { useState } from "react";
-import { RenderText } from "./render-text";
-import { RenderCodeBlock } from "./render-codeblock";
+import { RenderText } from "@/components/render-text";
+import { RenderCodeBlock } from "@/components/render-codeblock";
 
 interface MessageProps {
   text: string;

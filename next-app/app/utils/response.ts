@@ -1,13 +1,25 @@
-export function getResponse(input: string): string {
-  const lowercaseInput = input.toLowerCase()
-
-  if (lowercaseInput.includes('search for people') || lowercaseInput.includes('find people')) {
+export function getResponse(input: string) : string {
+  const lowercaseInput = input.toLowerCase();
+ 
+  const keywordGroups = {
+    people: [
+      'search', 'find', 'people', 'person', 'employee', 'individual', 'staff', 'team'
+    ],
+    region: [
+      'region', 'location', 'place', 'area', 'city', 'state', 'country'
+    ]
+  };
+ 
+  const matchesKeywords = (input: string, keywords: string[]  ) : boolean => 
+    keywords.some(keyword => input.includes(keyword));
+ 
+  if (matchesKeywords(lowercaseInput, keywordGroups.people)) {
     return `You can use the api.crustdata.com/screener/person/search endpoint to search for people. Here's an example curl request to find "people with title engineer at OpenAI in San Francisco":
 
 \`\`\`
-curl --location 'https://api.crustdata.com/screener/person/search' \\
---header 'Content-Type: application/json' \\
---header 'Authorization: Token $token \\
+curl --location 'https://api.crustdata.com/screener/person/search' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token $token' \
 --data '{
     "filters": [
         {
@@ -35,17 +47,16 @@ curl --location 'https://api.crustdata.com/screener/person/search' \\
 }'
 \`\`\`
 
-Make sure to replace $token with your actual API token.`
+Make sure to replace $token with your actual API token.`;
   }
-
-  if (lowercaseInput.includes('region') || lowercaseInput.includes('location')) {
+ 
+  if (matchesKeywords(lowercaseInput, keywordGroups.region)) {
     return `For region values, Crustdata uses a specific list of standardized regions. You can find the complete list of supported regions at this URL: https://crustdata-docs-region-json.s3.us-east-2.amazonaws.com/updated_regions.json
 
 It's recommended to first find the appropriate region from this list and then use the exact values in your search query. This ensures that your API calls will be successful when using the REGION filter.
 
-For example, instead of using "San Francisco", you should use the full standardized format: "San Francisco, California, United States".`
+For example, instead of using "San Francisco", you should use the full standardized format: "San Francisco, California, United States".`;
   }
-
-  return "I'm sorry, I don't have specific information about that. Could you please rephrase your question or ask about searching for people or region values?"
+ 
+  return "I'm sorry, I don't have specific information about that. Could you please rephrase your question or ask about searching for people or region values?";
 }
-

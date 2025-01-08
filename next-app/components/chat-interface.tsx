@@ -4,9 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import Message from "./message";
-import { getResponse } from "../utils/response";
+import Message from "@/components/message";
 import { SendHorizontal } from "lucide-react";
+import { getResponse } from "@/app/utils/response";
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<
